@@ -1,4 +1,4 @@
-package com.usermanagement.config;
+package com.usermanagement.core.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
