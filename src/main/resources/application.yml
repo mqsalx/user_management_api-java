@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: user_management_api
+
+server:
+  port: 9090
