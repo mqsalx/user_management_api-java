@@ -67,3 +67,7 @@ jacoco.exec
 
 # Environment files
 .env
+
+# Log files
+*.log
+/logs
