@@ -15,7 +15,7 @@
     <groupId>com.usermanagement</groupId>
     <artifactId>usermanagement</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>usermanagement</name>
+    <name>user_management_api</name>
     <description>User Management API</description>
 
     <properties>
@@ -23,6 +23,14 @@
     </properties>
 
     <dependencies>
+
+        <!-- Java Dotenv (Loads .env files for environment configuration) -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+
         <!-- Spring Boot Web (REST API) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -66,8 +74,10 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
             <scope>runtime</scope>
         </dependency>
+
 
         <!-- Lombok (Reduces Boilerplate Code) -->
         <dependency>
