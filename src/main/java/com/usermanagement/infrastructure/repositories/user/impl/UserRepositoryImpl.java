@@ -23,17 +23,12 @@ public class UserRepositoryImpl implements IUserRepository {
 
   @Override
   public UserEntity findUserByEmail(String email) {
-
-    UserEntity user =
+    var results =
         entityManager
             .createQuery("SELECT u FROM UserEntity u WHERE u.email = :email", UserEntity.class)
             .setParameter("email", email)
-            .getSingleResult();
+            .getResultList();
 
-    if (user != null) {
-      return user;
-    }
-
-    return null;
+    return results.isEmpty() ? null : results.get(0);
   }
 }

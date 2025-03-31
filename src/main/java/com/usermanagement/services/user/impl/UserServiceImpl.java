@@ -2,6 +2,7 @@
 
 package com.usermanagement.services.user.impl;
 
+import com.usermanagement.core.dtos.user.UserResponseDTO;
 import com.usermanagement.core.exceptions.BaseException;
 import com.usermanagement.core.exceptions.user.services.EmailAlreadyExistsException;
 import com.usermanagement.infrastructure.models.user.UserEntity;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements IUserService {
   }
 
   @Override
-  public UserEntity createUser(UserEntity user) {
+  public UserResponseDTO createUser(UserEntity user) {
     try {
 
       this.checkUserEmail(user.getEmail());
@@ -31,10 +32,14 @@ public class UserServiceImpl implements IUserService {
       String hashedPassword = UserServiceUtils.hashPassword(user.getPassword());
       user.setPassword(hashedPassword);
 
-      return userRepository.createUser(user);
+      UserEntity created = userRepository.createUser(user);
+
+      UserResponseDTO serviceResponse = UserServiceUtils.entityConvertToDTO(created);
+
+      return serviceResponse;
 
     } catch (BaseException e) {
-      LoggerUtil.error("Email already exists: " + e.getMessage());
+      LoggerUtil.error("Error during user creation: " + e.getMessage());
       throw e;
 
     } catch (Exception e) {
@@ -46,8 +51,7 @@ public class UserServiceImpl implements IUserService {
   private void checkUserEmail(String email) {
 
     if (userRepository.findUserByEmail(email) != null) {
-        throw new EmailAlreadyExistsException("User with email " + email + " already exists!");
+      throw new EmailAlreadyExistsException("User with email " + email + " already exists!");
     }
-
   }
 }

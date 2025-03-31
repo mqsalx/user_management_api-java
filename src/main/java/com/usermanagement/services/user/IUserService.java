@@ -2,8 +2,9 @@
 
 package com.usermanagement.services.user;
 
+import com.usermanagement.core.dtos.user.UserResponseDTO;
 import com.usermanagement.infrastructure.models.user.UserEntity;
 
 public interface IUserService {
-  UserEntity createUser(UserEntity user);
+  UserResponseDTO createUser(UserEntity user);
 }
