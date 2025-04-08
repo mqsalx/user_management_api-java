@@ -1,24 +1,21 @@
+// /src/main/java/com/usermanagement/UserManagementApplication.java
+
 package com.usermanagement;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 
-/** Main class to start the Spring Boot application. */
-@SpringBootApplication(
-    exclude = {
-      SecurityAutoConfiguration.class,
-      UserDetailsServiceAutoConfiguration.class,
-    })
+@SpringBootApplication
 public class UserManagementApplication {
 
-  /**
-   * Main method to launch the application.
-   *
-   * @param args Command-line arguments.
-   */
   public static void main(String[] args) {
     SpringApplication.run(UserManagementApplication.class, args);
+  }
+
+  @Bean
+  public Dotenv dotenv() {
+    return Dotenv.configure().ignoreIfMissing().load();
   }
 }
