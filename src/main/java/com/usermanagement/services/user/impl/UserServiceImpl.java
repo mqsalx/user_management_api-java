@@ -2,9 +2,12 @@
 
 package com.usermanagement.services.user.impl;
 
+import com.usermanagement.core.dtos.user.UserRequestDTO;
 import com.usermanagement.core.dtos.user.UserResponseDTO;
 import com.usermanagement.core.exceptions.BaseException;
 import com.usermanagement.core.exceptions.user.services.EmailAlreadyExistsException;
+import com.usermanagement.core.exceptions.user.services.UserNotFoundException;
+import com.usermanagement.core.mappers.user.UserMapper;
 import com.usermanagement.infrastructure.models.user.UserEntity;
 import com.usermanagement.infrastructure.repositories.user.IUserRepository;
 import com.usermanagement.services.user.IUserService;
@@ -17,39 +20,70 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements IUserService {
 
   private final IUserRepository userRepository;
+  private final UserMapper userMapper;
 
   @Autowired
-  public UserServiceImpl(IUserRepository userRepository) {
+  public UserServiceImpl(IUserRepository userRepository, UserMapper userMapper) {
     this.userRepository = userRepository;
+    this.userMapper = userMapper;
   }
 
   @Override
-  public UserResponseDTO createUser(UserEntity user) {
+  public UserResponseDTO createUser(UserRequestDTO userDTO) {
     try {
+      this.checkUserEmail(userDTO.getEmail());
 
-      this.checkUserEmail(user.getEmail());
+      String hashedPassword = UserServiceUtils.hashPassword(userDTO.getPassword());
+      userDTO.setPassword(hashedPassword);
 
-      String hashedPassword = UserServiceUtils.hashPassword(user.getPassword());
-      user.setPassword(hashedPassword);
-
+      UserEntity user = userMapper.toEntity(userDTO);
       UserEntity created = userRepository.createUser(user);
 
-      UserResponseDTO serviceResponse = UserServiceUtils.entityConvertToDTO(created);
-
-      return serviceResponse;
+      return userMapper.toResponseDTO(created);
 
     } catch (BaseException e) {
       LoggerUtil.error("Error during user creation: " + e.getMessage());
       throw e;
-
     } catch (Exception e) {
       LoggerUtil.error("Error during user creation: " + e.getMessage());
       throw new RuntimeException("Failed to create user", e);
     }
   }
 
-  private void checkUserEmail(String email) {
+  @Override
+  public UserResponseDTO updateUser(String id, UserRequestDTO userDTO) {
+    try {
+      UserEntity existingUser = userRepository.findUserById(id);
+      if (existingUser == null) {
+        throw new UserNotFoundException("User with ID " + id + " not found!");
+      }
 
+      if (userDTO.getEmail() != null
+          && !userDTO.getEmail().equals(existingUser.getEmail())
+          && userRepository.findUserByEmail(userDTO.getEmail()) != null) {
+        throw new EmailAlreadyExistsException("Email already in use!");
+      }
+
+      if (userDTO.getPassword() != null) {
+        userDTO.setPassword(UserServiceUtils.hashPassword(userDTO.getPassword()));
+      }
+
+      userMapper.updateUserFromDTO(userDTO, existingUser);
+
+      UserEntity updated = userRepository.updateUser(existingUser);
+
+      return userMapper.toResponseDTO(updated);
+
+    } catch (BaseException e) {
+      LoggerUtil.error("Error during user update: " + e.getMessage());
+      throw e;
+    } catch (Exception e) {
+      LoggerUtil.error("Unexpected error during user update: " + e.getMessage());
+      throw new RuntimeException("Failed to update user", e);
+    }
+  }
+
+  private void checkUserEmail(String email) {
     if (userRepository.findUserByEmail(email) != null) {
       throw new EmailAlreadyExistsException("User with email " + email + " already exists!");
     }

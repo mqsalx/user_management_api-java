@@ -20,7 +20,7 @@ public class UserServiceUtils {
     return passwordEncoder.encode(rawPassword);
   }
 
-  public static UserResponseDTO entityConvertToDTO(UserEntity user) {
+  public static UserResponseDTO entityConvertToResponseDTO(UserEntity user) {
     return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
   }
 

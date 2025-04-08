@@ -8,4 +8,8 @@ public interface IUserRepository {
   UserEntity createUser(UserEntity user);
 
   UserEntity findUserByEmail(String email);
+
+  UserEntity findUserById(String id);
+
+  UserEntity updateUser(UserEntity user);
 }

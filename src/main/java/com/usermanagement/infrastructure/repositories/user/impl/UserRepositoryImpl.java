@@ -31,4 +31,15 @@ public class UserRepositoryImpl implements IUserRepository {
 
     return results.isEmpty() ? null : results.get(0);
   }
+
+  @Override
+  public UserEntity findUserById(String id) {
+    return entityManager.find(UserEntity.class, id);
+  }
+
+  @Override
+  @Transactional
+  public UserEntity updateUser(UserEntity user) {
+    return entityManager.merge(user);
+  }
 }
