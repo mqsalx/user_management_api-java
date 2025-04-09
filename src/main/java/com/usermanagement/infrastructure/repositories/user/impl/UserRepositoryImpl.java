@@ -7,6 +7,7 @@ import com.usermanagement.infrastructure.repositories.user.IUserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -41,5 +42,12 @@ public class UserRepositoryImpl implements IUserRepository {
   @Transactional
   public UserEntity updateUser(UserEntity user) {
     return entityManager.merge(user);
+  }
+
+  @Override
+  public List<UserEntity> findAllUsers() {
+    return entityManager
+        .createQuery("SELECT u FROM UserEntity u", UserEntity.class)
+        .getResultList();
   }
 }

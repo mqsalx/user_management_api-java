@@ -3,6 +3,7 @@
 package com.usermanagement.infrastructure.repositories.user;
 
 import com.usermanagement.infrastructure.models.user.UserEntity;
+import java.util.List;
 
 public interface IUserRepository {
   UserEntity createUser(UserEntity user);
@@ -12,4 +13,6 @@ public interface IUserRepository {
   UserEntity findUserById(String id);
 
   UserEntity updateUser(UserEntity user);
+
+  List<UserEntity> findAllUsers();
 }
