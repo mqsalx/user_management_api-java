@@ -11,7 +11,7 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Component
 public class ResponseUtil {
 
-  public ServerResponse jsonResponse(HttpStatus status, String message, Map<String, Object> data) {
+  public ServerResponse jsonResponse(HttpStatus status, String message, Map<?, ?> data) {
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("status_code", status.value());
     body.put("status_name", status.getReasonPhrase());
