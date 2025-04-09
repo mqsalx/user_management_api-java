@@ -2,6 +2,7 @@
 
 package com.usermanagement.api.routes.user;
 
+import static org.springframework.web.servlet.function.RequestPredicates.PATCH;
 import static org.springframework.web.servlet.function.RequestPredicates.POST;
 import static org.springframework.web.servlet.function.RouterFunctions.route;
 
@@ -20,6 +21,7 @@ public class UserRoutes {
   }
 
   public RouterFunction<ServerResponse> userRouter() {
-    return route(POST("/users"), controller::createUserRoute);
+    return route(POST("/users"), controller::createUserRoute)
+        .andRoute(PATCH("/users/{id}"), controller::updateUserRoute);
   }
 }

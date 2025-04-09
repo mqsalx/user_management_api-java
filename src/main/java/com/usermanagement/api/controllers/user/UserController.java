@@ -2,8 +2,8 @@
 
 package com.usermanagement.api.controllers.user;
 
+import com.usermanagement.core.dtos.user.UserRequestDTO;
 import com.usermanagement.core.dtos.user.UserResponseDTO;
-import com.usermanagement.infrastructure.models.user.UserEntity;
 import com.usermanagement.services.user.IUserService;
 import com.usermanagement.utils.ResponseUtil;
 import jakarta.servlet.ServletException;
@@ -23,9 +23,18 @@ public class UserController {
 
   public ServerResponse createUserRoute(ServerRequest request)
       throws ServletException, IOException {
-    UserEntity user = request.body(UserEntity.class);
+    UserRequestDTO user = request.body(UserRequestDTO.class);
     UserResponseDTO serviceResponse = userService.createUser(user);
     return responseUtil.jsonResponse(
         HttpStatus.CREATED, "User created", Map.of("user", serviceResponse));
+  }
+
+  public ServerResponse updateUserRoute(ServerRequest request)
+      throws ServletException, IOException {
+    String id = request.pathVariable("id");
+    UserRequestDTO user = request.body(UserRequestDTO.class);
+    UserResponseDTO serviceResponse = userService.updateUser(id, user);
+    return responseUtil.jsonResponse(
+        HttpStatus.OK, "User updated", Map.of("user", serviceResponse));
   }
 }
