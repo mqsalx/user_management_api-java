@@ -11,21 +11,21 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Component
 public class ResponseUtil {
 
-  public ServerResponse jsonResponse(HttpStatus status, String message, Map<?, ?> data) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("status_code", status.value());
-    body.put("status_name", status.getReasonPhrase());
-    body.put("message", message);
-    body.put("data", data);
+    public ServerResponse jsonResponse(HttpStatus status, String message, Map<?, ?> data) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("status_code", status.value());
+        body.put("status_name", status.getReasonPhrase());
+        body.put("message", message);
+        body.put("data", data);
 
-    return ServerResponse.status(status).body(body);
-  }
+        return ServerResponse.status(status).body(body);
+    }
 
-  public ServerResponse jsonResponse(HttpStatus status, String message) {
-    return jsonResponse(status, message, null);
-  }
+    public ServerResponse jsonResponse(HttpStatus status, String message) {
+        return jsonResponse(status, message, null);
+    }
 
-  public ServerResponse jsonResponse(HttpStatus status) {
-    return jsonResponse(status, null, null);
-  }
+    public ServerResponse jsonResponse(HttpStatus status) {
+        return jsonResponse(status, null, null);
+    }
 }

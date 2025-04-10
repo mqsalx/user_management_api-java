@@ -16,27 +16,17 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Configuration
 public class SystemRoutes {
 
-  @Bean
-  public RouterFunction<ServerResponse> systemRouter() {
-    return RouterFunctions.route(RequestPredicates.GET("/routes"), this::listRoutes);
-  }
+    @Bean
+    public RouterFunction<ServerResponse> systemRouter() {
+        return RouterFunctions.route(RequestPredicates.GET("/routes"), this::listRoutes);
+    }
 
-  private ServerResponse listRoutes(ServerRequest request) {
-    List<Map<String, String>> routes =
-        request.attributes().entrySet().stream()
-            .filter(
-                e ->
-                    e.getKey()
-                        .contains(
-                            "org.springframework.web.servlet.HandlerMapping.bestMatchingPattern"))
-            .map(
-                e ->
-                    Map.of(
-                        "path", e.getValue().toString(),
-                        "method", request.method().name(),
-                        "name", "unknown"))
-            .collect(Collectors.toList());
+    private ServerResponse listRoutes(ServerRequest request) {
+        List<Map<String, String>> routes = request.attributes().entrySet().stream()
+                .filter(e -> e.getKey().contains("org.springframework.web.servlet.HandlerMapping.bestMatchingPattern"))
+                .map(e -> Map.of("path", e.getValue().toString(), "method", request.method().name(), "name", "unknown"))
+                .collect(Collectors.toList());
 
-    return ServerResponse.ok().body(Map.of("available_routes", routes));
-  }
+        return ServerResponse.ok().body(Map.of("available_routes", routes));
+    }
 }

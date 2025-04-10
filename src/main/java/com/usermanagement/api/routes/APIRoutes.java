@@ -14,10 +14,9 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Configuration
 public class APIRoutes {
 
-  @Bean
-  public RouterFunction<ServerResponse> mainRouter(
-      UserRoutes userRoutes, SystemRoutes systemRoutes) {
-    return RouterFunctions.nest(
-        RequestPredicates.path("/api"), userRoutes.userRouter().and(systemRoutes.systemRouter()));
-  }
+    @Bean
+    public RouterFunction<ServerResponse> mainRouter(UserRoutes userRoutes, SystemRoutes systemRoutes) {
+        return RouterFunctions.nest(RequestPredicates.path("/api"),
+                userRoutes.userRouter().and(systemRoutes.systemRouter()));
+    }
 }

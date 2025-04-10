@@ -7,17 +7,16 @@ import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerF
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ServerConfig
-    implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
+public class ServerConfig implements WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
 
-  private final EnvConfig envConfig;
+    private final EnvConfig envConfig;
 
-  public ServerConfig(EnvConfig envConfig) {
-    this.envConfig = envConfig;
-  }
+    public ServerConfig(EnvConfig envConfig) {
+        this.envConfig = envConfig;
+    }
 
-  @Override
-  public void customize(ConfigurableServletWebServerFactory factory) {
-    factory.setPort(envConfig.getServerPort());
-  }
+    @Override
+    public void customize(ConfigurableServletWebServerFactory factory) {
+        factory.setPort(envConfig.getServerPort());
+    }
 }

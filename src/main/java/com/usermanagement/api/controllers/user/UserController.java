@@ -18,28 +18,34 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Component
 public class UserController {
 
-  @Autowired private IUserService userService;
-  @Autowired private ResponseUtil responseUtil;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private ResponseUtil responseUtil;
 
-  public ServerResponse createUserController(ServerRequest request)
-      throws ServletException, IOException {
-    UserRequestDTO user = request.body(UserRequestDTO.class);
-    UserResponseDTO serviceResponse = userService.createUser(user);
-    return responseUtil.jsonResponse(
-        HttpStatus.CREATED, "User created", Map.of("user", serviceResponse));
-  }
+    public ServerResponse createUserController(ServerRequest request) throws ServletException, IOException {
+        UserRequestDTO user = request.body(UserRequestDTO.class);
+        UserResponseDTO serviceResponse = userService.createUser(user);
+        return responseUtil.jsonResponse(HttpStatus.CREATED, "User created", Map.of("user", serviceResponse));
+    }
 
-  public ServerResponse updateUserController(ServerRequest request)
-      throws ServletException, IOException {
-    String id = request.pathVariable("id");
-    UserRequestDTO user = request.body(UserRequestDTO.class);
-    UserResponseDTO serviceResponse = userService.updateUser(id, user);
-    return responseUtil.jsonResponse(
-        HttpStatus.OK, "User updated", Map.of("user", serviceResponse));
-  }
+    public ServerResponse updateUserController(ServerRequest request) throws ServletException, IOException {
+        String id = request.pathVariable("id");
+        UserRequestDTO user = request.body(UserRequestDTO.class);
+        UserResponseDTO serviceResponse = userService.updateUser(id, user);
+        return responseUtil.jsonResponse(HttpStatus.OK, "User updated", Map.of("user", serviceResponse));
+    }
 
-  public ServerResponse getAllUsersController(ServerRequest request) {
-    var serviceResponse = userService.getAllUsers();
-    return responseUtil.jsonResponse(HttpStatus.OK, "Founded!", serviceResponse);
-  }
+    public ServerResponse getAllUsersController(ServerRequest request) {
+
+        String id = request.param("id").orElse(null);
+
+        if (id != null) {
+            var serviceResponse = userService.getUserById(id);
+            return responseUtil.jsonResponse(HttpStatus.OK, "Founded!", serviceResponse);
+        }
+
+        var serviceResponse = userService.getAllUsers();
+        return responseUtil.jsonResponse(HttpStatus.OK, "Founded!", serviceResponse);
+    }
 }

@@ -15,15 +15,15 @@ import org.springframework.web.servlet.function.ServerResponse;
 @Component
 public class UserRoutes {
 
-  private final UserController controller;
+    private final UserController controller;
 
-  public UserRoutes(UserController controller) {
-    this.controller = controller;
-  }
+    public UserRoutes(UserController controller) {
+        this.controller = controller;
+    }
 
-  public RouterFunction<ServerResponse> userRouter() {
-    return route(POST("/users"), controller::createUserController)
-        .andRoute(PATCH("/users/{id}"), controller::updateUserController)
-        .andRoute(GET("/users"), controller::getAllUsersController);
-  }
+    public RouterFunction<ServerResponse> userRouter() {
+        return route(POST("/users"), controller::createUserController)
+                .andRoute(PATCH("/users/{id}"), controller::updateUserController)
+                .andRoute(GET("/users"), controller::getAllUsersController);
+    }
 }

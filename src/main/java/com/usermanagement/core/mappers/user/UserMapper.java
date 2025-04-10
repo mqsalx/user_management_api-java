@@ -14,14 +14,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-  UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-  UserEntity toEntity(UserRequestDTO dto);
+    UserEntity toEntity(UserRequestDTO dto);
 
-  UserResponseDTO toResponseDTO(UserEntity entity);
+    UserResponseDTO toResponseDTO(UserEntity entity);
 
-  @Mapping(target = "id", ignore = true)
-  @org.mapstruct.BeanMapping(
-      nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-  void updateUserFromDTO(UserRequestDTO dto, @MappingTarget UserEntity entity);
+    @Mapping(target = "id", ignore = true)
+    @org.mapstruct.BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateUserFromDTO(UserRequestDTO dto, @MappingTarget UserEntity entity);
 }
