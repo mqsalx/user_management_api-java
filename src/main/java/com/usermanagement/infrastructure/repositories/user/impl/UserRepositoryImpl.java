@@ -13,41 +13,37 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepositoryImpl implements IUserRepository {
 
-  @PersistenceContext private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-  @Override
-  @Transactional
-  public UserEntity createUser(UserEntity user) {
-    entityManager.persist(user);
-    return user;
-  }
+    @Override
+    @Transactional
+    public UserEntity createUser(UserEntity user) {
+        entityManager.persist(user);
+        return user;
+    }
 
-  @Override
-  public UserEntity findUserByEmail(String email) {
-    var results =
-        entityManager
-            .createQuery("SELECT u FROM UserEntity u WHERE u.email = :email", UserEntity.class)
-            .setParameter("email", email)
-            .getResultList();
+    @Override
+    public UserEntity findUserByEmail(String email) {
+        var results = entityManager.createQuery("SELECT u FROM UserEntity u WHERE u.email = :email", UserEntity.class)
+                .setParameter("email", email).getResultList();
 
-    return results.isEmpty() ? null : results.get(0);
-  }
+        return results.isEmpty() ? null : results.get(0);
+    }
 
-  @Override
-  public UserEntity findUserById(String id) {
-    return entityManager.find(UserEntity.class, id);
-  }
+    @Override
+    public UserEntity findUserById(String id) {
+        return entityManager.find(UserEntity.class, id);
+    }
 
-  @Override
-  @Transactional
-  public UserEntity updateUser(UserEntity user) {
-    return entityManager.merge(user);
-  }
+    @Override
+    @Transactional
+    public UserEntity updateUser(UserEntity user) {
+        return entityManager.merge(user);
+    }
 
-  @Override
-  public List<UserEntity> findAllUsers() {
-    return entityManager
-        .createQuery("SELECT u FROM UserEntity u", UserEntity.class)
-        .getResultList();
-  }
+    @Override
+    public List<UserEntity> findAllUsers() {
+        return entityManager.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
+    }
 }

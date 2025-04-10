@@ -6,13 +6,13 @@ import com.usermanagement.infrastructure.models.user.UserEntity;
 import java.util.List;
 
 public interface IUserRepository {
-  UserEntity createUser(UserEntity user);
+    UserEntity createUser(UserEntity user);
 
-  UserEntity findUserByEmail(String email);
+    UserEntity findUserByEmail(String email);
 
-  UserEntity findUserById(String id);
+    UserEntity findUserById(String id);
 
-  UserEntity updateUser(UserEntity user);
+    UserEntity updateUser(UserEntity user);
 
-  List<UserEntity> findAllUsers();
+    List<UserEntity> findAllUsers();
 }

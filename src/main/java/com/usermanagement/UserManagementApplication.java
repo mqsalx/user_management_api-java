@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class UserManagementApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(UserManagementApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(UserManagementApplication.class, args);
+    }
 
-  @Bean
-  public Dotenv dotenv() {
-    return Dotenv.configure().ignoreIfMissing().load();
-  }
+    @Bean
+    public Dotenv dotenv() {
+        return Dotenv.configure().ignoreIfMissing().load();
+    }
 }

@@ -13,23 +13,23 @@ import lombok.*;
 @AllArgsConstructor
 public class UserEntity {
 
-  @Id
-  @Column(name = "id", unique = true, nullable = false)
-  private String id;
+    @Id
+    @Column(name = "id", unique = true, nullable = false)
+    private String id;
 
-  @Column(name = "name", nullable = false)
-  private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-  @Column(name = "email", unique = true, nullable = false)
-  private String email;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
-  @Column(name = "password", nullable = false)
-  private String password;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-  @PrePersist
-  public void prePersist() {
-    if (this.id == null || this.id.isEmpty()) {
-      this.id = ServiceUtils.generateUniqueId();
+    @PrePersist
+    public void prePersist() {
+        if (this.id == null || this.id.isEmpty()) {
+            this.id = ServiceUtils.generateUniqueId();
+        }
     }
-  }
 }

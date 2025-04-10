@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 /** Exception thrown when a user email is already registered in the system. */
 public class EmailAlreadyExistsException extends BaseException {
 
-  /**
-   * Constructs a new {@code EmailAlreadyExistsException} with the given message.
-   *
-   * @param message The error message.
-   */
-  public EmailAlreadyExistsException(String message) {
-    super(HttpStatus.BAD_REQUEST, message);
-  }
+    /**
+     * Constructs a new {@code EmailAlreadyExistsException} with the given message.
+     *
+     * @param message
+     *            The error message.
+     */
+    public EmailAlreadyExistsException(String message) {
+        super(HttpStatus.BAD_REQUEST, message);
+    }
 }

@@ -8,9 +8,11 @@ import java.util.Map;
 
 public interface IUserService {
 
-  UserResponseDTO createUser(UserRequestDTO user);
+    UserResponseDTO createUser(UserRequestDTO user);
 
-  UserResponseDTO updateUser(String id, UserRequestDTO user);
+    UserResponseDTO updateUser(String id, UserRequestDTO user);
 
-  Map<String, Map<String, Object>> getAllUsers();
+    Map<String, Map<String, Object>> getAllUsers();
+
+    Map<String, Object> getUserById(String id);
 }

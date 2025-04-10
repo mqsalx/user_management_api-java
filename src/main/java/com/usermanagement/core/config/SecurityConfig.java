@@ -12,25 +12,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf(csrf -> csrf.disable())
-        .httpBasic(httpBasic -> httpBasic.disable())
-        .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(
-            auth ->
-                auth.requestMatchers(this::isBrowserRequest).denyAll().anyRequest().permitAll());
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable()).httpBasic(httpBasic -> httpBasic.disable())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(
+                        auth -> auth.requestMatchers(this::isBrowserRequest).denyAll().anyRequest().permitAll());
 
-    return http.build();
-  }
+        return http.build();
+    }
 
-  private boolean isBrowserRequest(HttpServletRequest request) {
-    String userAgent = request.getHeader("User-Agent");
-    return userAgent != null
-        && (userAgent.contains("Mozilla")
-            || userAgent.contains("Chrome")
-            || userAgent.contains("Safari")
-            || userAgent.contains("Firefox")
-            || userAgent.contains("Edge"));
-  }
+    private boolean isBrowserRequest(HttpServletRequest request) {
+        String userAgent = request.getHeader("User-Agent");
+        return userAgent != null && (userAgent.contains("Mozilla") || userAgent.contains("Chrome")
+                || userAgent.contains("Safari") || userAgent.contains("Firefox") || userAgent.contains("Edge"));
+    }
 }

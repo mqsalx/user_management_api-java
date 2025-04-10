@@ -177,19 +177,20 @@
                 <artifactId>spotless-maven-plugin</artifactId>
                 <version>2.43.0</version>
                 <executions>
-                    <execution>
-                        <goals>
-                            <goal>apply</goal>
-                        </goals>
-                    </execution>
+                  <execution>
+                    <goals>
+                      <goal>apply</goal>
+                    </goals>
+                  </execution>
                 </executions>
                 <configuration>
-                    <java>
-                        <googleJavaFormat />
-                    </java>
-
+                  <java>
+                    <eclipse>
+                      <file>${basedir}/config/formatter.xml</file>
+                    </eclipse>
+                  </java>
                 </configuration>
-            </plugin>
+              </plugin>
 
             <!-- Deactivate tests automatically -->
             <plugin>

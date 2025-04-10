@@ -12,26 +12,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataSourceConfig {
 
-  private final EnvConfig envConfig;
+    private final EnvConfig envConfig;
 
-  @Autowired
-  public DataSourceConfig(EnvConfig envConfig) {
-    this.envConfig = envConfig;
-  }
+    @Autowired
+    public DataSourceConfig(EnvConfig envConfig) {
+        this.envConfig = envConfig;
+    }
 
-  @Bean
-  public DataSource dataSource() {
+    @Bean
+    public DataSource dataSource() {
 
-    String url = envConfig.getDatasourceUrl();
-    String username = envConfig.getDatasourceUsername();
-    String password = envConfig.getDatasourcePassword();
-    String driverClassName = envConfig.getDatasourceDriver();
+        String url = envConfig.getDatasourceUrl();
+        String username = envConfig.getDatasourceUsername();
+        String password = envConfig.getDatasourcePassword();
+        String driverClassName = envConfig.getDatasourceDriver();
 
-    return DataSourceBuilder.create()
-        .url(url)
-        .username(username)
-        .password(password)
-        .driverClassName(driverClassName)
-        .build();
-  }
+        return DataSourceBuilder.create().url(url).username(username).password(password)
+                .driverClassName(driverClassName).build();
+    }
 }

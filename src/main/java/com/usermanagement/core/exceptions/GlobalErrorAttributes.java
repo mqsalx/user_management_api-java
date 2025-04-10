@@ -13,25 +13,24 @@ import org.springframework.web.server.ResponseStatusException;
 @Component
 public class GlobalErrorAttributes extends DefaultErrorAttributes {
 
-  @Override
-  public Map<String, Object> getErrorAttributes(
-      org.springframework.web.context.request.WebRequest webRequest,
-      ErrorAttributeOptions options) {
-    Map<String, Object> errorAttributes = new HashMap<>();
+    @Override
+    public Map<String, Object> getErrorAttributes(org.springframework.web.context.request.WebRequest webRequest,
+            ErrorAttributeOptions options) {
+        Map<String, Object> errorAttributes = new HashMap<>();
 
-    Throwable error = getError(webRequest);
-    int status = 500;
-    String message = "Internal Server Error";
+        Throwable error = getError(webRequest);
+        int status = 500;
+        String message = "Internal Server Error";
 
-    if (error instanceof ResponseStatusException ex) {
-      status = ex.getStatusCode().value();
-      message = ex.getReason() != null ? ex.getReason() : ex.getMessage();
+        if (error instanceof ResponseStatusException ex) {
+            status = ex.getStatusCode().value();
+            message = ex.getReason() != null ? ex.getReason() : ex.getMessage();
+        }
+
+        errorAttributes.put("status_code", status);
+        errorAttributes.put("status_name", HttpStatus.valueOf(status).getReasonPhrase());
+        errorAttributes.put("message", message);
+
+        return errorAttributes;
     }
-
-    errorAttributes.put("status_code", status);
-    errorAttributes.put("status_name", HttpStatus.valueOf(status).getReasonPhrase());
-    errorAttributes.put("message", message);
-
-    return errorAttributes;
-  }
 }
