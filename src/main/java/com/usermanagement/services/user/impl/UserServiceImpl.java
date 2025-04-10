@@ -13,6 +13,8 @@ import com.usermanagement.infrastructure.repositories.user.IUserRepository;
 import com.usermanagement.services.user.IUserService;
 import com.usermanagement.services.user.utils.UserServiceUtils;
 import com.usermanagement.utils.LoggerUtil;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +83,14 @@ public class UserServiceImpl implements IUserService {
       LoggerUtil.error("Unexpected error during user update: " + e.getMessage());
       throw new RuntimeException("Failed to update user", e);
     }
+  }
+
+  @Override
+  public Map<String, Map<String, Object>> getAllUsers() {
+    List<UserResponseDTO> dtos =
+        userRepository.findAllUsers().stream().map(userMapper::toResponseDTO).toList();
+
+    return UserServiceUtils.formatUsersAsMap(dtos);
   }
 
   private void checkUserEmail(String email) {

@@ -21,7 +21,7 @@ public class UserController {
   @Autowired private IUserService userService;
   @Autowired private ResponseUtil responseUtil;
 
-  public ServerResponse createUserRoute(ServerRequest request)
+  public ServerResponse createUserController(ServerRequest request)
       throws ServletException, IOException {
     UserRequestDTO user = request.body(UserRequestDTO.class);
     UserResponseDTO serviceResponse = userService.createUser(user);
@@ -29,12 +29,17 @@ public class UserController {
         HttpStatus.CREATED, "User created", Map.of("user", serviceResponse));
   }
 
-  public ServerResponse updateUserRoute(ServerRequest request)
+  public ServerResponse updateUserController(ServerRequest request)
       throws ServletException, IOException {
     String id = request.pathVariable("id");
     UserRequestDTO user = request.body(UserRequestDTO.class);
     UserResponseDTO serviceResponse = userService.updateUser(id, user);
     return responseUtil.jsonResponse(
         HttpStatus.OK, "User updated", Map.of("user", serviceResponse));
+  }
+
+  public ServerResponse getAllUsersController(ServerRequest request) {
+    var serviceResponse = userService.getAllUsers();
+    return responseUtil.jsonResponse(HttpStatus.OK, "Founded!", serviceResponse);
   }
 }
