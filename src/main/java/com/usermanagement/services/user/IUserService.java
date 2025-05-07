@@ -15,4 +15,6 @@ public interface IUserService {
     Map<String, Map<String, Object>> getAllUsers();
 
     Map<String, Object> getUserById(String id);
+
+    void deleteUser(String id);
 }
