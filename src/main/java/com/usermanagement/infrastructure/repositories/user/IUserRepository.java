@@ -15,4 +15,6 @@ public interface IUserRepository {
     UserEntity updateUser(UserEntity user);
 
     List<UserEntity> findAllUsers();
+
+    void deleteUser(UserEntity user);
 }
