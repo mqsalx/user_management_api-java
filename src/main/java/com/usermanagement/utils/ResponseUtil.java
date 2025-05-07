@@ -13,10 +13,16 @@ public class ResponseUtil {
 
     public ServerResponse jsonResponse(HttpStatus status, String message, Map<?, ?> data) {
         Map<String, Object> body = new LinkedHashMap<>();
+
         body.put("status_code", status.value());
         body.put("status_name", status.getReasonPhrase());
-        body.put("message", message);
-        body.put("data", data);
+
+        if (message != null) {
+            body.put("message", message);
+        }
+        if (data != null) {
+            body.put("data", data);
+        }
 
         return ServerResponse.status(status).body(body);
     }
