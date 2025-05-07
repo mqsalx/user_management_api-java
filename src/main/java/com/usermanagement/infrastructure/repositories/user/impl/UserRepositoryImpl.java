@@ -46,4 +46,10 @@ public class UserRepositoryImpl implements IUserRepository {
     public List<UserEntity> findAllUsers() {
         return entityManager.createQuery("SELECT u FROM UserEntity u", UserEntity.class).getResultList();
     }
+
+    @Override
+    @Transactional
+    public void deleteUser(UserEntity user) {
+        entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user));
+    }
 }
