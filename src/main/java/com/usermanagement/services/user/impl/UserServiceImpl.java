@@ -102,6 +102,15 @@ public class UserServiceImpl implements IUserService {
         return UserServiceUtils.formatUserAsMap(dto);
     }
 
+    @Override
+    public void deleteUser(String id) {
+        UserEntity user = userRepository.findUserById(id);
+        if (user == null) {
+            throw new UserNotFoundException("User with ID " + id + " not found!");
+        }
+        userRepository.deleteUser(user);
+    }
+
     private void checkUserEmail(String email) {
         if (userRepository.findUserByEmail(email) != null) {
             throw new EmailAlreadyExistsException("User with email " + email + " already exists!");

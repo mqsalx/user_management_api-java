@@ -48,4 +48,10 @@ public class UserController {
         var serviceResponse = userService.getAllUsers();
         return responseUtil.jsonResponse(HttpStatus.OK, "Founded!", serviceResponse);
     }
+
+    public ServerResponse deleteUserController(ServerRequest request) {
+        String id = request.pathVariable("id");
+        userService.deleteUser(id);
+        return responseUtil.jsonResponse(HttpStatus.OK, "User deleted successfully");
+    }
 }
