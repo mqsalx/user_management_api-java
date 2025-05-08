@@ -17,19 +17,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthMiddleware authMiddleware) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-            .httpBasic(httpBasic -> httpBasic.disable())
-            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers(this::isBrowserRequest).denyAll()
-                .anyRequest().permitAll()
-            )
-            .addFilterBefore(authMiddleware, UsernamePasswordAuthenticationFilter.class);
+        http.csrf(csrf -> csrf.disable()).httpBasic(httpBasic -> httpBasic.disable())
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(
+                        auth -> auth.requestMatchers(this::isBrowserRequest).denyAll().anyRequest().permitAll())
+                .addFilterBefore(authMiddleware, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
-
 
     private boolean isBrowserRequest(HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");

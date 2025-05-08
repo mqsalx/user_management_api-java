@@ -2,36 +2,38 @@
 
 package com.usermanagement.core.middlewares.auth;
 
-import com.usermanagement.utils.AuthUtil;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
-import java.util.List;
+import com.usermanagement.utils.AuthUtil;
+import com.usermanagement.utils.ResponseUtil;
+
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class AuthMiddleware extends OncePerRequestFilter {
 
     private final AuthUtil authUtil;
+    private final ResponseUtil responseUtil;
 
-    public AuthMiddleware(AuthUtil authUtil) {
+    public AuthMiddleware(AuthUtil authUtil, ResponseUtil responseUtil) {
         this.authUtil = authUtil;
+        this.responseUtil = responseUtil;
     }
 
     @Override
-    protected void doFilterInternal(
-        @NonNull HttpServletRequest request,
-        @NonNull HttpServletResponse response,
-        @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String path = request.getRequestURI();
         List<String> publicPaths = List.of("/api/auth");
@@ -44,7 +46,8 @@ public class AuthMiddleware extends OncePerRequestFilter {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            responseUtil.filterJsonResponse(response, HttpStatus.UNAUTHORIZED,
+                    "Missing or invalid Authorization header!");
             return;
         }
 
@@ -53,8 +56,8 @@ public class AuthMiddleware extends OncePerRequestFilter {
             Claims claims = authUtil.validateToken(token);
             request.setAttribute("userEmail", claims.getSubject());
             filterChain.doFilter(request, response);
-        } catch (JwtException e) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } catch (Exception e) {
+            responseUtil.filterJsonResponse(response, HttpStatus.UNAUTHORIZED, "Invalid or expired token!");
         }
     }
 }

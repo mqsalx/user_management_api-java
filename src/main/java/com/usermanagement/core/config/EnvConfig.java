@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EnvConfig {
 
-    private final String appName;
+    private final String apiName;
+    private final String apiLogLevel;
     private final String datasourceUrl;
     private final String datasourceUsername;
     private final String datasourcePassword;
@@ -18,7 +19,8 @@ public class EnvConfig {
     private final long jwtExpirationMs;
 
     public EnvConfig(Dotenv dotenv) {
-        this.appName = dotenv.get("API_NAME");
+        this.apiName = dotenv.get("API_NAME");
+        this.apiLogLevel = dotenv.get("API_LOG_LEVEL");
         this.datasourceUrl = dotenv.get("DATASOURCE_URL");
         this.datasourceUsername = dotenv.get("DATABASE_USER");
         this.datasourcePassword = dotenv.get("DATABASE_PASSWORD");
@@ -28,12 +30,17 @@ public class EnvConfig {
         this.jwtSecret = dotenv.get("JWT_SECRET");
         this.jwtExpirationMs = Long.parseLong(dotenv.get("JWT_EXPIRATION_MS"));
 
-        System.out.println("App Name: " + appName);
-        System.out.println("Server Port: " + serverPort);
+        System.out.println("API Name: " + apiName);
+        System.out.println("API Port: " + serverPort);
+        System.out.println("API running...");
     }
 
-    public String getAppName() {
-        return appName;
+    public String getApiName() {
+        return apiName;
+    }
+
+    public String getApiLogLevel() {
+        return apiLogLevel;
     }
 
     public String getDatasourceUrl() {
