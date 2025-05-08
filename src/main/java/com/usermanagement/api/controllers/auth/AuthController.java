@@ -25,7 +25,7 @@ public class AuthController {
     public ServerResponse login(ServerRequest request) {
         try {
             AuthRequestDTO credentials = request.body(AuthRequestDTO.class);
-            AuthResponseDTO response = authService.authenticate(credentials).block();
+            AuthResponseDTO response = authService.authenticate(credentials);
             return responseUtil.jsonResponse(HttpStatus.OK, "Token generated!", Map.of("token", response));
         } catch (Exception e) {
             return responseUtil.jsonResponse(HttpStatus.UNAUTHORIZED, "Invalid credentials!");
