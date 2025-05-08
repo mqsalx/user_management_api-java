@@ -15,7 +15,6 @@ import com.usermanagement.services.user.utils.UserServiceUtils;
 import com.usermanagement.utils.LoggerUtil;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +23,6 @@ public class UserServiceImpl implements IUserService {
     private final IUserRepository userRepository;
     private final UserMapper userMapper;
 
-    @Autowired
     public UserServiceImpl(IUserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
@@ -44,10 +42,10 @@ public class UserServiceImpl implements IUserService {
             return userMapper.toResponseDTO(created);
 
         } catch (BaseException e) {
-            LoggerUtil.error("Error during user creation: " + e.getMessage());
+            LoggerUtil.info("Error during user creation: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            LoggerUtil.error("Error during user creation: " + e.getMessage());
+            LoggerUtil.info("Error during user creation: " + e.getMessage());
             throw new RuntimeException("Failed to create user", e);
         }
     }
@@ -76,10 +74,10 @@ public class UserServiceImpl implements IUserService {
             return userMapper.toResponseDTO(updated);
 
         } catch (BaseException e) {
-            LoggerUtil.error("Error during user update: " + e.getMessage());
+            LoggerUtil.info("Error during user update: " + e.getMessage());
             throw e;
         } catch (Exception e) {
-            LoggerUtil.error("Unexpected error during user update: " + e.getMessage());
+            LoggerUtil.info("Unexpected error during user update: " + e.getMessage());
             throw new RuntimeException("Failed to update user", e);
         }
     }
