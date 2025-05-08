@@ -27,6 +27,10 @@ public class UserServiceUtils {
         return passwordEncoder.encode(rawPassword);
     }
 
+    public static boolean checkPassword(String rawPassword, String hashedPassword) {
+        return passwordEncoder.matches(rawPassword, hashedPassword);
+    }
+
     public static UserResponseDTO entityConvertToResponseDTO(UserEntity user) {
         return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
     }
