@@ -2,8 +2,10 @@
 
 package com.usermanagement.api.routes;
 
+import com.usermanagement.api.routes.auth.AuthRoutes;
 import com.usermanagement.api.routes.system.SystemRoutes;
 import com.usermanagement.api.routes.user.UserRoutes;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.function.RequestPredicates;
@@ -15,8 +17,9 @@ import org.springframework.web.servlet.function.ServerResponse;
 public class APIRoutes {
 
     @Bean
-    public RouterFunction<ServerResponse> mainRouter(UserRoutes userRoutes, SystemRoutes systemRoutes) {
+    public RouterFunction<ServerResponse> mainRouter(AuthRoutes authRoutes, SystemRoutes systemRoutes,
+            UserRoutes userRoutes) {
         return RouterFunctions.nest(RequestPredicates.path("/api"),
-                userRoutes.userRouter().and(systemRoutes.systemRouter()));
+                systemRoutes.systemRouter().and(authRoutes.authRouter()).and(userRoutes.userRouter()));
     }
 }
