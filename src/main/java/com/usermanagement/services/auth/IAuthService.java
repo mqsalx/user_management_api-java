@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
 
 public interface IAuthService {
 
-    Mono<AuthResponseDTO> authenticate(AuthRequestDTO request);
+    AuthResponseDTO authenticate(AuthRequestDTO request);
 }

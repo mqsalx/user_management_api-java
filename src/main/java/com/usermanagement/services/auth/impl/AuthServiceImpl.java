@@ -25,19 +25,15 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public Mono<AuthResponseDTO> authenticate(AuthRequestDTO request) {
-        try {
-            UserEntity user = userRepository.findUserByEmail(request.getEmail());
+    public AuthResponseDTO authenticate(AuthRequestDTO request) {
+        UserEntity user = userRepository.findUserByEmail(request.getEmail());
 
-            if (user == null || !UserServiceUtils.checkPassword(request.getPassword(), user.getPassword())) {
-                return Mono.error(new RuntimeException("Invalid credentials!"));
-            }
-
-            String token = authUtil.generateToken(user.getId(), user.getEmail());
-            return Mono.just(new AuthResponseDTO(token));
-
-        } catch (Exception e) {
-            return Mono.error(new RuntimeException("Authentication failed!", e));
+        if (user == null || !UserServiceUtils.checkPassword(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid credentials!");
         }
+
+        String token = authUtil.generateToken(user.getId(), user.getEmail());
+        return new AuthResponseDTO(token);
     }
+
 }
