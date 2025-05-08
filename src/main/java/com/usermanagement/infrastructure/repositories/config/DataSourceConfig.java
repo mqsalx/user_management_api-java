@@ -4,7 +4,6 @@ package com.usermanagement.infrastructure.repositories.config;
 
 import com.usermanagement.core.config.EnvConfig;
 import javax.sql.DataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ public class DataSourceConfig {
 
     private final EnvConfig envConfig;
 
-    @Autowired
     public DataSourceConfig(EnvConfig envConfig) {
         this.envConfig = envConfig;
     }

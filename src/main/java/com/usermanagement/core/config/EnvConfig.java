@@ -14,6 +14,8 @@ public class EnvConfig {
     private final String datasourcePassword;
     private final String datasourceDriver;
     private final int serverPort;
+    private final String jwtSecret;
+    private final long jwtExpirationMs;
 
     public EnvConfig(Dotenv dotenv) {
         this.appName = dotenv.get("API_NAME");
@@ -22,6 +24,9 @@ public class EnvConfig {
         this.datasourcePassword = dotenv.get("DATABASE_PASSWORD");
         this.datasourceDriver = dotenv.get("DATABASE_DRIVER");
         this.serverPort = Integer.parseInt(dotenv.get("API_PORT"));
+
+        this.jwtSecret = dotenv.get("JWT_SECRET");
+        this.jwtExpirationMs = Long.parseLong(dotenv.get("JWT_EXPIRATION_MS"));
 
         System.out.println("App Name: " + appName);
         System.out.println("Server Port: " + serverPort);
@@ -49,5 +54,13 @@ public class EnvConfig {
 
     public int getServerPort() {
         return serverPort;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
+
+    public long getJwtExpirationMs() {
+        return jwtExpirationMs;
     }
 }
